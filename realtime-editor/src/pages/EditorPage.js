@@ -3,10 +3,12 @@ import Client from '../components/Client';
 import CodeEditor from '../components/CodeEditor';
 // import { initSocket } from "../socket";
 // import ACTIONS from "../action";
-import { useLocation } from "react-router-dom";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
+import toast from 'react-hot-toast';
 
 
-const EditorPage = ({username, roomId}) => {
+const EditorPage = ({ username, roomId }) => {
+    const navigate = useNavigate();
     // const socketRef = useRef(null);
     // const location = useLocation();
     // useEffect(() => {
@@ -20,14 +22,29 @@ const EditorPage = ({username, roomId}) => {
     //     init();
     // },[]);
 
-    const [clients, setClients ] = useState([
+    const [clients, setClients] = useState([
         { socketId: 1, username: "vini" },
-        { socketId: 2, username: "Baba"},
-     
+        { socketId: 2, username: "Baba" },
+
 
 
 
     ]);
+    function handleCopyClick() {
+        navigator.clipboard.writeText(roomId);
+        toast.success('Room ID copied successfully', {
+            duration: 3000,
+            position: 'top-right',
+        });
+    }
+    function handleLeaveClick() {
+        const confirmleave = confirm("Do you want to leave  ?")
+        if (confirmleave ) {
+            navigate('/')
+
+        }
+    }
+
 
     return (
         <div className="mainWrap">
@@ -40,22 +57,22 @@ const EditorPage = ({username, roomId}) => {
                     <div className="clientsLists">
                         {
                             clients.map((client) => (
-                                <Client 
-                                key={client.socketId} 
-                                username={client.username}
-                                 />
+                                <Client
+                                    key={client.socketId}
+                                    username={client.username}
+                                />
                             ))}
 
 
                     </div>
                 </div>
-                <button className="btn copyBtn">    Copy Room id </button>
-                <button className="btn leaveBtn"> Leave </button>
+                <button onClick={handleCopyClick} className="btn copyBtn">    Copy Room id </button>
+                <button onClick={handleLeaveClick} className="btn leaveBtn"> Leave </button>
 
             </div>
             <div className="editorWrap">
                 <CodeEditor roomId={roomId} />
-                 </div>
+            </div>
         </div>
     );
 };
