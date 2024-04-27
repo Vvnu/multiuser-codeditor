@@ -4,7 +4,7 @@ const cors = require('cors');
 const http =  require('http');
 const {Server} = require('socket.io');
 
-const frontendURL='http://192.168.123.199:3000'
+const frontendURL='http://192.168.59.199:3000'
 // const frontendURL='http://localhost:3001'
 
 app.use(cors());
