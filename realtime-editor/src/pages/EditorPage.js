@@ -30,13 +30,55 @@ const EditorPage = ({ username, roomId }) => {
 
 
     ]);
-    function handleCopyClick() {
-        navigator.clipboard.writeText(roomId);
-        toast.success('Room ID copied successfully', {
-            duration: 3000,
-            position: 'top-right',
-        });
+
+
+
+
+
+
+
+
+    function fallbackCopyTextToClipboard(text) {
+        var textArea = document.createElement("textarea");
+        textArea.value = text;
+      
+        // Avoid scrolling to bottom
+        textArea.style.top = "0";
+        textArea.style.left = "0";
+        textArea.style.position = "fixed";
+      
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+      
+        try {
+            var successful = document.execCommand('copy');
+            var msg = successful ? 'successful' : 'unsuccessful';
+            console.log('Fallback: Copying text command was ' + msg);
+            if (successful) {
+                toast.success('Room ID copied successfully', {
+                    duration: 3000,
+                    position: 'top-right',
+                });
+            } else {
+                toast.error('Failed to copy Room ID', {
+                    duration: 3000,
+                    position: 'top-right',
+                });
+            }
+        } catch (err) {
+            console.error('Fallback: Oops, unable to copy', err);
+            toast.error('Failed to copy Room ID', {
+                duration: 3000,
+                position: 'top-right',
+            });
+        }
+      
+        document.body.removeChild(textArea);
     }
+    
+
+
     function handleLeaveClick() {
         const confirmleave = confirm("Do you want to leave  ?")
         if (confirmleave ) {
@@ -66,7 +108,7 @@ const EditorPage = ({ username, roomId }) => {
 
                     </div>
                 </div>
-                <button onClick={handleCopyClick} className="btn copyBtn">    Copy Room id </button>
+                <button onClick={() => fallbackCopyTextToClipboard(roomId)} className="btn copyBtn">Copy Room id</button>
                 <button onClick={handleLeaveClick} className="btn leaveBtn"> Leave </button>
 
             </div>
