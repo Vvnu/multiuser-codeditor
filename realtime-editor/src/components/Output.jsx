@@ -31,11 +31,7 @@ const Output = ({ editorRef, language }) => {
 
   return (
     <Box w="50%">
-      <Text mb={6} fontSize="8xl"
-      textColor="#ffffff"
-              fontWeight="bold" // Set font weight
-
-      >
+      <Text mb={6} fontSize="8xl" textColor="#ffffff" fontWeight="bold">
         Output
       </Text>
       <Button
@@ -65,6 +61,7 @@ const Output = ({ editorRef, language }) => {
         border="5px solid"
         borderRadius={4}
         borderColor={isError ? "black.500" : "#000"}
+        overflow="scroll" // Set overflow to scroll
       >
         {output
           ? output.map((line, i) => <Text key={i}>{line}</Text>)
