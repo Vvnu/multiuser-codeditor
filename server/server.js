@@ -1,10 +1,12 @@
+const dotenv = require('dotenv');
 const express = require('express');
 const app = express();
 const cors = require('cors');
 const http = require('http');
 const { Server } = require('socket.io');
+dotenv.config()
 
-const frontendURL = 'http://192.168.34.199:3000';
+const frontendURL = process.env.CLIENTURL;
 // const frontendURL = 'http://localhost:3000';
 
 app.use(cors());
