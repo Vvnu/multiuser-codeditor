@@ -1,6 +1,6 @@
 import { io } from 'socket.io-client';
-
-const serverURL = 'http://192.168.34.199:5000';
+import config from './config.js'
+const serverURL = config.serverURL;
 // const serverURL = 'http://localhost:5000';
 
 export const socket = io(serverURL);
