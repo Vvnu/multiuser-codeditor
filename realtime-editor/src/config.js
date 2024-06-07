@@ -1,5 +1,5 @@
 
 const config ={
-    serverURL: 'http://192.168.131.199:5000'
+    serverURL: 'https://vaag.glitch.me/'
 } 
 export default config;

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import { Box, HStack } from "@chakra-ui/react";
 import { Editor } from "@monaco-editor/react";
 import LanguageSelector from "./LanguageSelector";
@@ -6,12 +6,19 @@ import { CODE_SNIPPETS } from "../constants";
 import Output from "./Output";
 import { socket } from "../socket";
 import PropTypes from 'prop-types';
+import debounce from 'lodash/debounce';
 
 const CodeEditor = ({ roomId }) => {
   const editorRef = useRef(null);
   const [value, setValue] = useState(CODE_SNIPPETS["python"]);
   const [language, setLanguage] = useState("python");
   const initialLoad = useRef(true);
+
+  const debouncedSend = useCallback(
+    debounce((value) => {
+      socket.emit("send", { msg: value, roomId });
+    }, 300), [roomId]
+  );
 
   const onMount = (editor) => {
     editorRef.current = editor;
@@ -28,12 +35,11 @@ const CodeEditor = ({ roomId }) => {
       initialLoad.current = false;
       return;
     }
-    socket.emit("send", { msg: value, roomId });
-  }, [value, roomId]);
+    debouncedSend(value);
+  }, [value, debouncedSend]);
 
   useEffect(() => {
     socket.on("receive", (data) => {
-      console.log("Data received:", data);
       setValue(data.msg);
     });
 
