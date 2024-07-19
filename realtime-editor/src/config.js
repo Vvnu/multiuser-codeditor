@@ -1,5 +1,5 @@
+const config = {
+    serverURL: 'https://servercode-9f6p.onrender.com'
+};
 
-const config ={
-    serverURL: 'https://vaag.glitch.me/'
-} 
 export default config;

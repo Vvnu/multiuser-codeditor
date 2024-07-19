@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useRef, useState, } from "react";
 import { Box, HStack } from "@chakra-ui/react";
 import { Editor } from "@monaco-editor/react";
 import LanguageSelector from "./LanguageSelector";
@@ -7,6 +7,7 @@ import Output from "./Output";
 import { socket } from "../socket";
 import PropTypes from 'prop-types';
 import debounce from 'lodash/debounce';
+// import stripAnsi from 'strip-ansi'; // Add this line if you need stripAnsi
 
 const CodeEditor = ({ roomId }) => {
   const editorRef = useRef(null);
@@ -14,7 +15,7 @@ const CodeEditor = ({ roomId }) => {
   const [language, setLanguage] = useState("python");
   const initialLoad = useRef(true);
 
-  const debouncedSend = useCallback(
+  const debouncedSend = (
     debounce((value) => {
       socket.emit("send", { msg: value, roomId });
     }, 300), [roomId]
